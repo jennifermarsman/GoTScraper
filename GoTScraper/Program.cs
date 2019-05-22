@@ -44,7 +44,7 @@ namespace GoTScraper
             string address = "https://www.springfieldspringfield.co.uk/view_episode_scripts.php?tv-show=game-of-thrones&episode=";
             HttpClient client = new HttpClient();
 
-            for (int season = 1; season < 8; season++)
+            for (int season = 1; season <= 8; season++)
             {
                 for (int episode = 1; episode <= 10; episode++)
                 {
@@ -56,6 +56,7 @@ namespace GoTScraper
                         // There were only 7 episodes in season 7.  The rest have 10 episodes.  
                         if (episode > 7) break;
                     }
+                    if (season == 8 && episode > 6) break;
 
                     string uri = address + "s" + season.ToString("00") + "e" + episode.ToString("00");
                     HtmlWeb web = new HtmlWeb();
@@ -69,7 +70,7 @@ namespace GoTScraper
         {
             // Put relevant info from HTML - I know this is ugly and hardcoded, but it will only be run once 
             // XPath: "/html[1]/body[1]/div[1]/div[3]/div[3]/div[2]"
-            var mainContentLeftNode = doc.DocumentNode.ChildNodes["html"].ChildNodes["body"].ChildNodes[1].ChildNodes[7].ChildNodes[5].ChildNodes[3];
+            var mainContentLeftNode = doc.DocumentNode.ChildNodes["html"].ChildNodes["body"].ChildNodes[1].ChildNodes[7].ChildNodes[3].ChildNodes[3];
             string filename = mainContentLeftNode.ChildNodes["h1"].InnerText.Trim();
             string episodeTitle = mainContentLeftNode.ChildNodes["h3"].InnerText.Trim();
             string episodeContent = mainContentLeftNode.ChildNodes[7].ChildNodes[1].InnerHtml.Trim();
